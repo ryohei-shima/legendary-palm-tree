@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>利用者詳細情報</title>
+</head>
+<body>
+    <h1>利用者詳細情報</h1>
+    <hr>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>氏名</th>
+            <td th:text="${user.name}"></td>
+        </tr>
+        <tr>
+            <th>要介護度</th>
+            <td th:text="${user.careLevel}"></td>
+        </tr>
+        <tr>
+            <th>次回計画書更新日</th>
+            <td th:text="${user.nextUpdateDate}"></td>
+        </tr>
+        <tr>
+            <th>既往歴</th>
+            <td th:utext="${user.medicalHistory != null ? #strings.replace(user.medicalHistory, '&#10;', '&lt;br/&gt;') : '未登録'}"></td>
+        </tr>
+        <tr>
+            <th>禁忌・備考欄</th>
+            <td th:utext="${user.notes != null ? #strings.replace(user.notes, '&#10;', '&lt;br/&gt;') : '未登録'}"></td>
+        </tr>
+    </table>
+    <br>
+    <a th:href="@{/users/{id}/edit(id=${user.id})}">✏️ 情報を追記・編集する</a> | 
+    <a th:href="@{/users}">一覧に戻る</a>
+
+    <br><br>
+    <hr>
+    
+    <!-- 📄ここから計画書連携の表示を追加しました！ -->
+    <h2>📋 個別機能訓練計画書（厚労省様式連携）</h2>
+    
+    <!-- 新規作成ボタン -->
+    <a th:href="@{/users/{id}/plans/new(id=${user.id})}">➕ 新しい個別機能訓練計画書を作成する</a>
+    <br><br>
+
+    <!-- 過去の計画書の一覧履歴 -->
+    <table border="1" cellpadding="5" th:if="${not #lists.isEmpty(user.plans)}">
+        <thead>
+            <tr>
+                <th>計画作成日</th>
+                <th>長期目標</th>
+                <th>短期目標</th>
+                <th>詳細確認</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="plan : ${user.plans}">
+                <td th:text="${plan.createDate}">2026-04-01</td>
+                <td th:text="${#strings.abbreviate(plan.longTermGoal, 20)}">長期目標...</td>
+                <td th:text="${#strings.abbreviate(plan.shortTermGoal, 20)}">短期目標...</td>
+                <td>
+                    <!-- クリックするとその計画書のフル文章が見られるリンク（後ほど作成） -->
+                    <a th:href="@{/users/{userId}/plans/{planId}(userId=${user.id}, planId=${plan.id})}">🔍 表示</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <!-- まだ計画書がない場合のメッセージ -->
+    <p th:if="${#lists.isEmpty(user.plans)}">※この利用者の計画書はまだ登録されていません。</p>
+
+</body>
+</html>

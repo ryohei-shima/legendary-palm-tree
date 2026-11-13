@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>利用者一覧</title>
+</head>
+<body>
+    <h1>利用者一覧</h1>
+    <a th:href="@{/users/new}">＋ 新しい利用者を登録する</a>
+    <hr>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>氏名</th>
+                <th>要介護度</th>
+                <th>計画書更新日</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td>
+                    <!-- 【重要】ここをリンクに修正しました。クリックすると詳細画面に飛びます -->
+                    <a th:href="@{/users/{id}(id=${user.id})}" th:text="${user.name}">山田 太郎</a>
+                </td>
+                <td th:text="${user.careLevel}">要介護2</td>
+                <td th:text="${user.nextUpdateDate}">2026-11-30</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
