@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>個別機能訓練計画書 詳細確認</title>
+</head>
+<body>
+    <h1>個別機能訓練計画書 詳細確認</h1>
+    <h3 th:text="${'対象利用者: ' + user.name + ' 様'}"></h3>
+    <hr>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>計画作成日</th>
+            <td th:text="${plan.createDate}"></td>
+        </tr>
+        <tr>
+            <th>長期目標</th>
+            <td th:utext="${plan.longTermGoal != null ? #strings.replace(plan.longTermGoal, '&#10;', '&lt;br/&gt;') : '未入力'}"></td>
+        </tr>
+        <tr>
+            <th>短期目標</th>
+            <td th:utext="${plan.shortTermGoal != null ? #strings.replace(plan.shortTermGoal, '&#10;', '&lt;br/&gt;') : '未入力'}"></td>
+        </tr>
+        <tr>
+            <th>具体的な訓練項目</th>
+            <td th:utext="${plan.trainingProgram != null ? #strings.replace(plan.trainingProgram, '&#10;', '&lt;br/&gt;') : '未入力'}"></td>
+        </tr>
+        <tr>
+            <th>自主訓練項目</th>
+            <td th:utext="${plan.homeProgram != null ? #strings.replace(plan.homeProgram, '&#10;', '&lt;br/&gt;') : '未入力'}"></td>
+        </tr>
+        <tr>
+            <th>評価・進捗状況</th>
+            <td th:utext="${plan.evaluation != null ? #strings.replace(plan.evaluation, '&#10;', '&lt;br/&gt;') : '未入力'}"></td>
+        </tr>
+    </table>
+    <br>
+	<a th:href="@{/users/{userId}/plans/{planId}/edit(userId=${user.id}, planId=${plan.id})}">✏️ この計画書を編集・評価を追記する</a> | 
+    <a th:href="@{/users/{id}(id=${user.id})}">利用者の詳細に戻る</a>
+</body>
+</html>

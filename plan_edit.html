@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>個別機能訓練計画書 編集・評価追記</title>
+</head>
+<body>
+    <h1>個別機能訓練計画書 編集・評価追記</h1>
+    <h3 th:text="${'対象利用者: ' + user.name + ' 様'}"></h3>
+    <hr>
+
+    <form th:action="@{/users/{userId}/plans/{planId}/update(userId=${user.id}, planId=${plan.id})}" th:object="${plan}" method="post">
+        <!-- 既存の計画書IDを保持するための隠しフィールド -->
+        <input type="hidden" th:field="*{id}" />
+
+        <div>
+            <label>計画作成日：</label><br>
+            <input type="date" th:field="*{createDate}" required />
+        </div>
+        <br>
+        <div>
+            <label>長期目標（心身機能・活動・参加）：</label><br>
+            <textarea th:field="*{longTermGoal}" rows="3" cols="50"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>短期目標（細分化した行為）：</label><br>
+            <textarea th:field="*{shortTermGoal}" rows="3" cols="50"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>具体的な訓練項目（プログラム・頻度・時間など）：</label><br>
+            <textarea th:field="*{trainingProgram}" rows="4" cols="50"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>自主訓練項目（自宅や日々の生活での取り組み）：</label><br>
+            <textarea th:field="*{homeProgram}" rows="3" cols="50"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>評価・進捗状況（3ヶ月後の評価など）：</label><br>
+            <textarea th:field="*{evaluation}" rows="4" cols="50" placeholder="（例）目標達成。屋内杖歩行が自立し、浴槽のまたぎ動作も安全に実施可能となった。"></textarea>
+        </div>
+        <br>
+        <button type="submit">変更内容を保存する</button>
+    </form>
+    <br>
+    <a th:href="@{/users/{userId}/plans/{planId}(userId=${user.id}, planId=${plan.id})}">キャンセルして詳細に戻る</a>
+</body>
+</html>

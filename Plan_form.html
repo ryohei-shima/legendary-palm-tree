@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>個別機能訓練計画書 作成</title>
+</head>
+<body>
+    <h1>個別機能訓練計画書 作成</h1>
+    <h3 th:text="${'対象利用者: ' + user.name + ' 様'}"></h3>
+    <hr>
+
+    <form th:action="@{/users/{userId}/plans(userId=${user.id})}" th:object="${plan}" method="post">
+        <div>
+            <label>計画作成日：</label><br>
+            <input type="date" th:field="*{createDate}" required />
+        </div>
+        <br>
+        <div>
+            <label>長期目標（心身機能・活動・参加）：</label><br>
+            <textarea th:field="*{longTermGoal}" rows="3" cols="50" placeholder="（例）自宅の浴槽に一人でまたいで安全に入浴できるようになる（3ヶ月）"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>短期目標（細分化した行為）：</label><br>
+            <textarea th:field="*{shortTermGoal}" rows="3" cols="50" placeholder="（例）1. 左片麻痺に配慮しつつ、30cmの段差を安全に昇降できる。 2. 浴槽内での立ち座り動作が安定して行える。"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>具体的な訓練項目（プログラム・頻度・時間など）：</label><br>
+            <textarea th:field="*{trainingProgram}" rows="4" cols="50" placeholder="（例）1. 下肢筋力強化訓練（スクワット、マシントレーニング等） 週2回 各20分 2. 模擬浴槽を用いた移乗動作練習 週2回 各15分"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>自主訓練項目（自宅や日々の生活での取り組み）：</label><br>
+            <textarea th:field="*{homeProgram}" rows="3" cols="50" placeholder="（例）デイサービスのない日は自宅での椅子立ち上がり運動を朝夕10回ずつ行う。"></textarea>
+        </div>
+        <br>
+        <div>
+            <label>評価・進捗状況（更新時に入力）：</label><br>
+            <textarea th:field="*{evaluation}" rows="3" cols="50" placeholder="※新規作成時は空欄で構いません"></textarea>
+        </div>
+        <br>
+        <button type="submit">計画書を登録する</button>
+    </form>
+    <br>
+    <a th:href="@{/users/{id}(id=${user.id})}">キャンセルして詳細に戻る</a>
+</body>
+</html>
